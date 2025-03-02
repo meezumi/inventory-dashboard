@@ -1,0 +1,16 @@
+.app {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  .main-content {
+    display: flex;
+    margin-top: 20px;
+  }
+  
+  @media (max-width: 992px) {
+    .main-content {
+      flex-direction: column;
+    }
+  }

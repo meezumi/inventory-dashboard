@@ -1,0 +1,66 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .header-title {
+    color: #999;
+    font-size: 14px;
+  }
+  
+  .admin-console {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .admin-icon {
+    margin-right: 8px;
+  }
+  
+  .admin-tag {
+    background-color: #eee;
+    padding: 2px 5px;
+    border-radius: 3px;
+    margin-left: 8px;
+    font-size: 10px;
+  }
+  
+  .header-actions {
+    display: flex;
+    align-items: center;
+  }
+  
+  .support-btn {
+    display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+    margin-right: 15px;
+    cursor: pointer;
+  }
+  
+  .user-profile {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .user-avatar {
+    width: 30px;
+    height: 30px;
+    background-color: #ddd;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 5px;
+  }
+  
+  .dropdown-icon {
+    font-size: 10px;
+  }

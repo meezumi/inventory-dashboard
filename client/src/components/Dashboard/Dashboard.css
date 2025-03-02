@@ -1,0 +1,71 @@
+.dashboard {
+    flex: 1;
+    padding-right: 20px;
+  }
+  
+  .dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .dashboard-title {
+    font-size: 24px;
+    font-weight: 500;
+  }
+  
+  .dealer-selector {
+    display: flex;
+    align-items: center;
+  }
+  
+  .dealer-selector label {
+    margin-right: 10px;
+    font-size: 14px;
+  }
+  
+  .dealer-selector select {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    min-width: 200px;
+  }
+  
+  .section {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+    padding: 20px;
+  }
+  
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .section-title {
+    font-size: 16px;
+    font-weight: 500;
+  }
+  
+  .tabs {
+    display: flex;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 15px;
+  }
+  
+  .tab {
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 14px;
+    border-bottom: 2px solid transparent;
+  }
+  
+  .tab.active {
+    border-bottom-color: #ff9f40;
+    font-weight: 500;
+  }
