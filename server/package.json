@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Backend for Inventory Dashboard",
   "main": "server.js",
+  "proxy": "http://localhost:5000",
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js"

@@ -11,56 +11,62 @@ exports.getInventory = async (req, res) => {
     const { make, duration } = req.query;
     
     // Parse the CSV file
-    const data = await csvParser(dataFilePath);
-
-    data = data.map(item => ({
+    let rawData = await csvParser(dataFilePath);
+    
+    // Process the data WITHOUT reassigning the variable
+    const processedData = rawData.map(item => ({
       ...item,
       date: item.timestamp ? new Date(item.timestamp) : null,
     }));
     
     // Apply filters if provided
-    let filteredData = [...data];
+    let filteredData = [...processedData];
     
     if (make) {
-      filteredData = filteredData.filter(item => item.make.toLowerCase() === make.toLowerCase());
+      filteredData = filteredData.filter(item => 
+        item.make && item.make.toLowerCase() === make.toLowerCase()
+      );
     }
     
     if (duration) {
       const now = new Date();
       let startDate;
+      let endDate;
       
       switch(duration) {
         case 'lastMonth':
           startDate = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+          endDate = new Date(now.getFullYear(), now.getMonth(), 0);
           break;
         case 'thisMonth':
           startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+          endDate = now;
           break;
         case 'last3Months':
           startDate = new Date(now.getFullYear(), now.getMonth() - 3, 1);
+          endDate = now;
           break;
         case 'last6Months':
           startDate = new Date(now.getFullYear(), now.getMonth() - 6, 1);
+          endDate = now;
           break;
         case 'thisYear':
           startDate = new Date(now.getFullYear(), 0, 1);
+          endDate = now;
           break;
         case 'lastYear':
           startDate = new Date(now.getFullYear() - 1, 0, 1);
-          const endDate = new Date(now.getFullYear(), 0, 0);
-          filteredData = filteredData.filter(item => {
-            const itemDate = new Date(item.date);
-            return itemDate >= startDate && itemDate <= endDate;
-          });
-          return res.json(filteredData);
+          endDate = new Date(now.getFullYear(), 0, 0);
+          break;
         default:
           break;
       }
       
       if (startDate) {
         filteredData = filteredData.filter(item => {
-          const itemDate = new Date(item.date);
-          return itemDate >= startDate;
+          if (!item.date) return false;
+          const itemDate = item.date instanceof Date ? item.date : new Date(item.date);
+          return itemDate >= startDate && (!endDate || itemDate <= endDate);
         });
       }
     }
@@ -68,9 +74,9 @@ exports.getInventory = async (req, res) => {
     res.json(filteredData);
   } catch (error) {
     console.error('Error fetching inventory data:', error);
-    res.status(500).json({ 
-      success: false, 
-      error: 'Failed to fetch inventory data' 
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch inventory data'
     });
   }
 };

@@ -6,7 +6,7 @@ const apiRoutes = require('./routes/api');
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({ origin: 'http://localhost:3000' }));
 app.use(express.json());
 app.use(morgan('dev'));
 

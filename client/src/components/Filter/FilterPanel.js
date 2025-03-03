@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { 
   setMakeFilter, 
@@ -12,8 +12,22 @@ const FilterPanel = () => {
   const dispatch = useDispatch();
   const { filters } = useSelector(state => state.filters);
   
+  // Create local state to store temporary filter selections
+  const [tempFilters, setTempFilters] = useState({
+    make: [...filters.make],
+    duration: filters.duration
+  });
+  
+  // Update local state when Redux state changes
+  useEffect(() => {
+    setTempFilters({
+      make: [...filters.make],
+      duration: filters.duration
+    });
+  }, [filters]);
+  
   const handleMakeChange = (make) => {
-    const currentMakes = [...filters.make];
+    const currentMakes = [...tempFilters.make];
     const index = currentMakes.indexOf(make);
     
     if (index > -1) {
@@ -22,12 +36,24 @@ const FilterPanel = () => {
       currentMakes.push(make);
     }
     
-    dispatch(setMakeFilter(currentMakes));
+    setTempFilters({
+      ...tempFilters,
+      make: currentMakes
+    });
   };
   
   const handleDurationChange = (duration) => {
-    const newDuration = filters.duration === duration ? null : duration;
-    dispatch(setDurationFilter(newDuration));
+    const newDuration = tempFilters.duration === duration ? null : duration;
+    setTempFilters({
+      ...tempFilters,
+      duration: newDuration
+    });
+  };
+  
+  const handleApplyFilters = () => {
+    // Dispatch actions to update Redux state with temporary filter values
+    dispatch(setMakeFilter(tempFilters.make));
+    dispatch(setDurationFilter(tempFilters.duration));
   };
   
   const handleClearFilters = () => {
@@ -47,7 +73,7 @@ const FilterPanel = () => {
             <input
               type="checkbox"
               id={`make-${make.id}`}
-              checked={filters.make.includes(make.id)}
+              checked={tempFilters.make.includes(make.id)}
               onChange={() => handleMakeChange(make.id)}
             />
             <label htmlFor={`make-${make.id}`}>{make.label}</label>
@@ -62,7 +88,7 @@ const FilterPanel = () => {
             <input
               type="checkbox"
               id={`duration-${duration.id}`}
-              checked={filters.duration === duration.id}
+              checked={tempFilters.duration === duration.id}
               onChange={() => handleDurationChange(duration.id)}
             />
             <label htmlFor={`duration-${duration.id}`}>{duration.label}</label>
